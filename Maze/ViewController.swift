@@ -80,6 +80,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // 渡された情報の通りのViewを作成する
     func createView(x x: Int, y: Int, width: CGFloat, height: CGFloat, offsetX: CGFloat = 0, offsetY: CGFloat = 0) -> UIView {
         let rect = CGRect(x: 0, y: 0, width: width, height: height)
         let view = UIView(frame: rect)
@@ -91,6 +92,7 @@ class ViewController: UIViewController {
         return view
     }
     
+    // Player：端末の傾きを加速度に変換、また当たり判定もここで
     func startAccelerometer() {
         let handler: CMAccelerometerHandler = {(accelerometerData: CMAccelerometerData?, error: NSError?) -> Void in
             self.speedX += accelerometerData!.acceleration.x
@@ -131,6 +133,7 @@ class ViewController: UIViewController {
         playerMotionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: handler)
     }
     
+    // ゲームオーバーまたはクリア後の処理
     func gameCheck(result: String, message: String) {
         if playerMotionManager.accelerometerActive {
             playerMotionManager.stopAccelerometerUpdates()
@@ -144,7 +147,7 @@ class ViewController: UIViewController {
         gameCheckAlert.addAction(retryAction)
         self.presentViewController(gameCheckAlert, animated: true, completion: nil)
     }
-    
+    // リトライ処理
     func retry() {
         playerView.center = startView.center
         if !playerMotionManager.accelerometerActive {
